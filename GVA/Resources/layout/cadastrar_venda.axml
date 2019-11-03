@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:paddingLeft="50"
+	android:paddingRight="50">
+	<TextView
+		android:text="Vendas"
+		android:layout_width="match_parent"
+		android:layout_height="88.5dp"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:id="@+id/textView1"
+		android:textAlignment="center"
+		android:scrollbars="horizontal|none|vertical"
+		android:layout_gravity="center_vertical|center_horizontal"
+		android:gravity="center_vertical"
+		android:textColor="#ffae80d0"
+		android:inputType="text"
+		android:foregroundGravity="center_horizontal|fill_horizontal"
+		android:textSize="25" />
+	<LinearLayout
+		android:orientation="horizontal"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/linearLayout3">
+		<ImageView
+			android:src="@android:drawable/ic_menu_gallery"
+			android:layout_width="140dp"
+			android:layout_height="140dp"
+			android:id="@+id/imageView1"
+			android:foregroundGravity="center_horizontal"/>
+		<EditText
+			android:inputType="textMultiLine"
+			android:layout_width="140dp"
+			android:layout_height="match_parent"
+			android:id="@+id/txtDescricao"
+			android:hint="Descrição"
+			android:textColorHint="#ffae80d0"
+			android:backgroundTint="#ffbba5e1"
+			android:foregroundGravity="bottom"
+			android:gravity="bottom" />
+	</LinearLayout>
+	<EditText
+		android:inputType="numberDecimal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textColorHint="#ffae80d0"
+		android:hint="Valor"
+		android:id="@+id/txtValor"
+		android:backgroundTint="#ffbba5e1"/>
+	<LinearLayout
+		android:orientation="horizontal"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/linearLayout1">
+		<EditText
+			android:inputType="date"
+			android:layout_width="140.5dp"
+			android:layout_height="match_parent"
+			android:textColorHint="#ffae80d0"
+			android:hint="Data Venda"
+			android:backgroundTint="#ffbba5e1"
+			android:id="@+id/txtDataVenda"
+			 />
+		<EditText
+			android:inputType="date"
+			android:layout_width="149.5dp"
+			android:layout_height="match_parent"
+			android:id="@+id/txtDataVencimento"
+			android:textColorHint="#ffae80d0"
+			android:hint="Data Vencimento"
+			android:backgroundTint="#ffbba5e1"
+			 />
+	</LinearLayout>
+	<EditText
+		android:inputType="textMultiLine"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textColorHint="#ffae80d0"
+		android:hint="Data Pagamento"
+		android:backgroundTint="#ffbba5e1"
+		android:id="@+id/DataPagamento" />
+	<LinearLayout
+		android:orientation="horizontal"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/linearLayout2"
+		android:fadingEdge="horizontal"
+		android:foregroundGravity="center"
+		android:gravity="center"
+		android:paddingTop="50">
+		<Button
+			android:text="Cancelar"
+			android:layout_width="100dp"
+			android:layout_height="match_parent"
+			android:id="@+id/btnCancelar"
+			android:background="@color/button"
+			android:textSize="15dp"
+			android:textColor="#ffffffff"/>
+		<Space
+			android:layout_width="30dp"
+			android:layout_height="match_parent"
+			android:id="@+id/space1" />
+		<Button
+			android:text="Salvar"
+			android:layout_width="100dp"
+			android:layout_height="match_parent"
+			android:id="@+id/btnSalvar"
+			android:background="@color/button"
+			android:textColor="#ffffffff"
+			android:textSize="15dp" />
+	</LinearLayout>
+	
+</LinearLayout>
