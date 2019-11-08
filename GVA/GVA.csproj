@@ -56,8 +56,13 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aplicacao.cs" />
+    <Compile Include="CadastrarClienteActivity.cs" />
+    <Compile Include="CadastrarVendaActivity.cs" />
     <Compile Include="DataLocal\ClienteDB.cs" />
     <Compile Include="DataLocal\VendaDB.cs" />
+    <Compile Include="Entidades\Cliente.cs" />
+    <Compile Include="Entidades\Venda.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -118,6 +123,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\listar_clientes.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\cliente_item.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\venda_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

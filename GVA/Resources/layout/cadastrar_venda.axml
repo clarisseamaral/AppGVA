@@ -4,8 +4,8 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:paddingLeft="50"
-	android:paddingRight="50">
+	android:paddingLeft="50dp"
+	android:paddingRight="50dp">
 	<TextView
 		android:text="Vendas"
 		android:layout_width="match_parent"
@@ -20,7 +20,7 @@
 		android:textColor="#ffae80d0"
 		android:inputType="text"
 		android:foregroundGravity="center_horizontal|fill_horizontal"
-		android:textSize="25" />
+		android:textSize="25dp" />
 	<LinearLayout
 		android:orientation="horizontal"
 		android:minWidth="25px"
@@ -97,7 +97,7 @@
 		android:fadingEdge="horizontal"
 		android:foregroundGravity="center"
 		android:gravity="center"
-		android:paddingTop="50">
+		android:paddingTop="50px">
 		<Button
 			android:text="Cancelar"
 			android:layout_width="100dp"
