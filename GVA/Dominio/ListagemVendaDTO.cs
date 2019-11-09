@@ -2,8 +2,8 @@
 {
     public class ListagemVendaDTO
     {
-        public int Id { get; set; }
-        public int IdCliente { get; set; }
+        public long Id { get; set; }
+        public long IdCliente { get; set; }
 
         public string NomeCliente { get; set; }
 

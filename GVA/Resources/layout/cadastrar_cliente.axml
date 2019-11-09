@@ -5,12 +5,14 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:paddingLeft="50dp"
+	android:paddingTop="50dp"
 	android:paddingRight="50dp">
 	<EditText
 		android:inputType="textPersonName"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:id="@+id/txtNome"
+		android:textColor = "@color/colorTexto"
 		android:hint="Nome"
 		android:textColorHint="#ffae80d0"
 		android:backgroundTint="#ffbba5e1" />
@@ -19,6 +21,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:textColorHint="#ffae80d0"
+		android:textColor = "@color/colorTexto"
 		android:hint="E-mail"
 		android:id="@+id/txtEmail"
 		android:backgroundTint="#ffbba5e1"/>
@@ -35,14 +38,16 @@
 			android:layout_height="match_parent"
 			android:textColorHint="#ffae80d0"
 			android:hint="Telefone"
+			android:textColor = "@color/colorTexto"
 			android:backgroundTint="#ffbba5e1"
 			android:id="@+id/txtTelefone"
 			 />
 		<EditText
 			android:inputType="date"
-			android:layout_width="169.5dp"
+			android:layout_width="159.5dp"
 			android:layout_height="match_parent"
 			android:id="@+id/txtDataNascimento"
+			android:textColor = "@color/colorTexto"
 			android:textColorHint="#ffae80d0"
 			android:hint="Data Nascimento"
 			android:backgroundTint="#ffbba5e1"
@@ -54,6 +59,7 @@
 		android:layout_height="wrap_content"
 		android:textColorHint="#ffae80d0"
 		android:hint="Endereço"
+		android:textColor = "@color/colorTexto"
 		android:backgroundTint="#ffbba5e1"
 		android:id="@+id/txtEndereco" />
 	<EditText
@@ -62,6 +68,7 @@
 		android:layout_height="wrap_content"
 		android:textColorHint="#ffae80d0"
 		android:hint="Observações"
+		android:textColor = "@color/colorTexto"
 		android:backgroundTint="#ffbba5e1"
 		android:id="@+id/txtObservacoes" />
 	<TextView

@@ -27,6 +27,7 @@
 			android:hint="Descrição"
 			android:textColorHint="#ffae80d0"
 			android:backgroundTint="#ffbba5e1"
+			android:textColor = "@color/colorTexto"
 			android:foregroundGravity="bottom"
 			android:gravity="bottom" />
 	</LinearLayout>
@@ -37,6 +38,7 @@
 		android:textColorHint="#ffae80d0"
 		android:hint="Valor"
 		android:id="@+id/txtValor"
+		android:textColor = "@color/colorTexto"
 		android:backgroundTint="#ffbba5e1"/>
 	<LinearLayout
 		android:orientation="horizontal"
@@ -52,6 +54,7 @@
 			android:textColorHint="#ffae80d0"
 			android:hint="Data Venda"
 			android:backgroundTint="#ffbba5e1"
+			android:textColor = "@color/colorTexto"
 			android:id="@+id/txtDataVenda"
 			 />
 		<EditText
@@ -60,16 +63,18 @@
 			android:layout_height="match_parent"
 			android:id="@+id/txtDataVencimento"
 			android:textColorHint="#ffae80d0"
+			android:textColor = "@color/colorTexto"
 			android:hint="Data Vencimento"
 			android:backgroundTint="#ffbba5e1"
 			 />
 	</LinearLayout>
 	<EditText
-		android:inputType="textMultiLine"
+		android:inputType="date"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:textColorHint="#ffae80d0"
 		android:hint="Data Pagamento"
+		android:textColor = "@color/colorTexto"
 		android:backgroundTint="#ffbba5e1"
 		android:id="@+id/txtDataPagamento" />
 	<LinearLayout

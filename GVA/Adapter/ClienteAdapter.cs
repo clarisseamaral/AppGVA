@@ -56,7 +56,7 @@ namespace GVA.Adapter
             }
 
             holder.Nome.Text = itens[position].Nome;
-            holder.DataNascimento.Text = itens[position].DataNascimento.ToString("dd/MM/yyyy");
+            holder.DataNascimento.Text = itens[position].DataNascimento;
 
             return view;
         }

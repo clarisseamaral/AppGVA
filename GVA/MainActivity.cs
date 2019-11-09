@@ -16,25 +16,33 @@ namespace GVA
     public class MainActivity : Activity
     {
         ListView listaVendas;
+        IList<ListagemVendaDTO> itens;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
             listaVendas = FindViewById<ListView>(Resource.Id.listViewVendas);
+            listaVendas.ItemClick += ListaVendas_ItemClick;
 
+            CarregarLista();
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            CarregarLista();
+        }
+
+        private void CarregarLista()
+        {
             var dtVendas = UtilDataBase.GetItems(VendaDB.TableName);
 
             if (dtVendas.Rows.Count > 0)
             {
-                IList<ListagemVendaDTO> itens = IConversoes.ConvertDataTable<ListagemVendaDTO>(dtVendas);
+                itens = IConversoes.ConvertDataTable<ListagemVendaDTO>(dtVendas);
 
                 listaVendas.Adapter = new VendaAdapter(this, itens);
-                listaVendas.ItemClick += ListaVendas_ItemClick;
-            }
-            else
-            {
-                SetContentView(Resource.Layout.activity_main);
             }
         }
 
@@ -74,6 +82,10 @@ namespace GVA
         private void ListaVendas_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             int position = e.Position;
+
+            var activity = new Intent(this, typeof(CadastrarVendaActivity));
+            activity.PutExtra("FluxoEdicaoVenda", itens[e.Position].Id.ToString());
+            StartActivity(activity);
         }
 
     }

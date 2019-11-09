@@ -23,7 +23,7 @@ namespace GVA.DataLocal
 
         public static string TableColumns {
             get {
-                return @"IdCliente INTEGER, 
+                return @"IdCliente INTEGER primary key autoincrement, 
                          Nome ntext, 
                          Email ntext, 
                          Telefone ntext, 
@@ -40,10 +40,10 @@ namespace GVA.DataLocal
         public string InsertQuery {
             get {
                 var sb = new StringBuilder();
-                sb.AppendFormat("insert into {0} ( IdCliente, Nome, Email, Telefone, DataNascimento, Observacoes)", TableName);
+                sb.AppendFormat("insert into {0} (Nome, Email, Telefone, DataNascimento, Observacoes)", TableName);
 
                 sb.Append(" values(");
-                sb.AppendFormat("'{0}',", this.IdCliente);
+                //sb.AppendFormat("'{0}',", this.IdCliente);
                 sb.AppendFormat("'{0}',", this.Nome);
                 sb.AppendFormat("'{0}',", this.Email);
                 sb.AppendFormat("'{0}',", this.Telefone);
@@ -75,7 +75,7 @@ namespace GVA.DataLocal
         public string SelectQuery {
             get {
                 var sb = new StringBuilder();
-                sb.AppendFormat("SELECT * from {0} ", TableName);
+                sb.AppendFormat("SELECT * from {0} order by Nome ", TableName);
                 return sb.ToString();
             }
         }

@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">GVA</string>
-    <string name="action_settings">Settings</string>
+  <string name="action_settings">Settings</string>
+  <string name="DadosAlteradosSucesso">Dados alterados com sucesso!</string>
+  <string name="DadosInseridosSucesso">Dados cadastrados com sucesso!</string>
+  <string name="DataInvalida">Preencha o(s) campo(s) em destaque com uma data válida.</string>
+  <string name="DataPagamentoInvalida">A data do pagamento deve ser maior ou igual a data da venda.</string>
+  <string name="DataVencimentoInvalida">A data de vencimento deve ser maior que a data da venda.</string>
+  <string name="ClienteComVenda">Não é possível apagar, a(o) cliente possui venda cadastrada.</string>
+  <string name="DadoApagadoSucesso">Dado apagado com sucesso!</string>
+  <string name="ConfirmarEditar">Tem certeza que deseja editar?</string>
+  <string name="DataVendaMaiorPermitido">A data da venda deve ser menor ou igual a data atual.</string>
 </resources>

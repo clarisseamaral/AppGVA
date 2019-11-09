@@ -49,7 +49,7 @@ namespace GVA.Adapter
             {
                 holder = new VendaAdapterViewHolder();
                 var inflater = context.GetSystemService(Context.LayoutInflaterService).JavaCast<LayoutInflater>();
-                view = inflater.Inflate(Resource.Layout.cliente_item, parent, false);
+                view = inflater.Inflate(Resource.Layout.venda_item, parent, false);
                 holder.Descricao = view.FindViewById<TextView>(Resource.Id.txtDescricaoVenda);
                 holder.Detalhes = view.FindViewById<TextView>(Resource.Id.txtDetalhes);
                 view.Tag = holder;

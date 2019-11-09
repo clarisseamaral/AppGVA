@@ -6,19 +6,12 @@
 	android:layout_height="match_parent"
 	android:minWidth="25px"
 	android:minHeight="25px">
-	<ScrollView
-		android:minWidth="25px"
-		android:minHeight="25px"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/scrollView1"
-		android:layout_marginBottom="296.5dp" >
+	
 		<ListView
 		android:minWidth="25px"
 		android:minHeight="25px"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:id="@+id/listView1" />
-	</ScrollView>
+		android:id="@+id/listViewClientes" />
 
 </LinearLayout>

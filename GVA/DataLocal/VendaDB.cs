@@ -28,7 +28,7 @@ namespace GVA.DataLocal
         public static string TableColumns {
             get {
                 //TODO: descobrir tipo double banco local
-                return @"Id INTEGER, 
+                return @"Id INTEGER primary key autoincrement, 
                          IdCliente INTEGER, 
                          Descricao ntext, 
                          Valor INTEGER, 
@@ -46,10 +46,10 @@ namespace GVA.DataLocal
         public string InsertQuery {
             get {
                 var sb = new StringBuilder();
-                sb.AppendFormat("insert into {0} (Id, IdCliente, IdPergunta, Descricao, Valor, DataVenda, DataVencimento, DataPagamento)", TableName);
+                sb.AppendFormat("insert into {0} (IdCliente, Descricao, Valor, DataVenda, DataVencimento, DataPagamento)", TableName);
 
                 sb.Append(" values(");
-                sb.AppendFormat("'{0}',", this.Id);
+                //sb.AppendFormat("'{0}',", this.Id);
                 sb.AppendFormat("'{0}',", this.IdCliente);
                 sb.AppendFormat("'{0}',", this.Descricao);
                 sb.AppendFormat("'{0}',", this.Valor);

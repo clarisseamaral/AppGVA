@@ -29,11 +29,7 @@ namespace GVA
 
         }
 
-        public static void ResetarAplicacao()
-        {
-            UtilDataBase.Delete(VendaDB.TableName, string.Empty);
-            UtilDataBase.Delete(ClienteDB.TableName, string.Empty);
-        }
+       
     }
   
 }
