@@ -1,43 +1,36 @@
 ﻿using Android.App;
-using Android.OS;
-using Android.Support.V7.App;
-using Android.Runtime;
-using Android.Widget;
-using System;
+using Android.Content;
 using Android.Content.PM;
-using GVA.Util;
+using Android.OS;
+using Android.Views;
+using Android.Widget;
+using GVA.Adapter;
 using GVA.DataLocal;
+using GVA.Dominio;
+using GVA.Util;
+using System.Collections.Generic;
 
 namespace GVA
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
-    public class MainActivity : ListActivity
+    [Activity(Label = "Vendas", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait, Theme = "@style/AppTheme")]
+    public class MainActivity : Activity
     {
-        static readonly string[] countries = new String[] {
-                "Afghanistan","Albania","Algeria","American Samoa","Andorra",
-                "Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina",
-                "Armenia","Aruba","Australia","Austria","Azerbaijan"
-        };
+        ListView listaVendas;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            //SetContentView(Resource.Layout.activity_main);
-
             base.OnCreate(savedInstanceState);
+            SetContentView(Resource.Layout.activity_main);
+            listaVendas = FindViewById<ListView>(Resource.Id.listViewVendas);
 
             var dtVendas = UtilDataBase.GetItems(VendaDB.TableName);
 
             if (dtVendas.Rows.Count > 0)
             {
-                ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.venda_item, countries);
+                IList<ListagemVendaDTO> itens = IConversoes.ConvertDataTable<ListagemVendaDTO>(dtVendas);
 
-                ListView.TextFilterEnabled = true;
-
-                ListView.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args)
-                {
-                    Toast.MakeText(Application, ((TextView)args.View).Text, ToastLength.Short).Show();
-                };
-
+                listaVendas.Adapter = new VendaAdapter(this, itens);
+                listaVendas.ItemClick += ListaVendas_ItemClick;
             }
             else
             {
@@ -45,9 +38,43 @@ namespace GVA
             }
         }
 
-        private void AtribuirEventos()
+        public override void OnCreateContextMenu(IContextMenu menu, View v, IContextMenuContextMenuInfo menuInfo)
         {
-            //FindViewById<Button>(Resource.Id.btnLogin).Click += BtnLogin_Click;
+            base.OnCreateContextMenu(menu, v, menuInfo);
         }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            base.OnCreateOptionsMenu(menu);
+            MenuInflater inflater = this.MenuInflater;
+            inflater.Inflate(Resource.Menu.menu1, menu);
+            return true;
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.MenuAdicionarVenda:
+                    var intent = new Intent(this, typeof(CadastrarVendaActivity));
+                    StartActivity(intent);
+                    break;
+                case Resource.Id.MenuClientes:
+                    var intentLista = new Intent(this, typeof(ListarClienteActivity));
+                    StartActivity(intentLista);
+                    return true;
+                case Resource.Id.MenuAdicionarCliente:
+                    var intentCliente = new Intent(this, typeof(CadastrarClienteActivity));
+                    StartActivity(intentCliente);
+                    return true;
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
+        private void ListaVendas_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            int position = e.Position;
+        }
+
     }
 }

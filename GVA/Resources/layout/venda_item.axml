@@ -11,10 +11,10 @@
 		android:paddingRight="10dip">
 		<ImageView
 			android:id="@+id/imgVenda"
-			android:layout_width="wrap_content"
+			android:layout_width="50.5dp"
 			android:layout_height="48dp"
 			android:padding="5dp"
-			android:src="@drawable/abc_textfield_activated_mtrl_alpha"
+			android:src="@android:drawable/ic_menu_gallery"
 			android:layout_alignParentRight="true" />
 		<LinearLayout
 			android:id="@+id/layoutVertical"
@@ -24,7 +24,7 @@
 			android:paddingRight="10dip">
 			<TextView
 				android:text="Venda"
-				android:id="@+id/txtDetalhes"
+				android:id="@+id/txtDescricaoVenda"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textSize="18dip"
@@ -32,7 +32,7 @@
 				android:paddingLeft="30dip"
 			 />
 			<TextView
-				android:id="@+id/txtDescricaoVenda"
+				android:id="@+id/txtDetalhes"
 				android:text="Cliente - valor"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"

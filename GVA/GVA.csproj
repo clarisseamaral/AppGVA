@@ -56,22 +56,30 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapter\ClienteAdapter.cs" />
     <Compile Include="Aplicacao.cs" />
     <Compile Include="CadastrarClienteActivity.cs" />
     <Compile Include="CadastrarVendaActivity.cs" />
     <Compile Include="DataLocal\ClienteDB.cs" />
     <Compile Include="DataLocal\VendaDB.cs" />
-    <Compile Include="Entidades\Cliente.cs" />
-    <Compile Include="Entidades\Venda.cs" />
+    <Compile Include="Dominio\ClienteDTO.cs" />
+    <Compile Include="Dominio\ListagemClienteDTO.cs" />
+    <Compile Include="Dominio\ListagemVendaDTO.cs" />
+    <Compile Include="Dominio\VendaDTO.cs" />
+    <Compile Include="ListarClienteActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\IConversoes.cs" />
     <Compile Include="Util\IDataLocal.cs" />
     <Compile Include="Util\UtilDataBase.cs" />
+    <Compile Include="Adapter\VendaAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
-    <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Properties\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -83,7 +91,6 @@
     <AndroidResource Include="Resources\values\strings.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher.xml" />
-    <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher_round.xml" />
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_foreground.png" />
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_round.png" />
@@ -112,11 +119,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\listar_vendas.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\cadastrar_cliente.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -135,6 +137,15 @@
     <AndroidResource Include="Resources\layout\venda_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Menu\menu1.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher_round.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace GVA.Entidades
+namespace GVA.Dominio
 {
-    public class Cliente
+    public class ClienteDTO
     {
         public int IdCliente { get; set; }
         public string Nome { get; set; }

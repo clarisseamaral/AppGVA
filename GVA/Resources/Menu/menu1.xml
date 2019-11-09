@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:id="@+id/MenuAdicionarVenda" 
+            android:title="Inserir venda"
+            android:showAsAction="never"/>
+  <item android:id="@+id/MenuClientes"
+        android:title="Visualizar clientes"
+        android:showAsAction="never"/>
+  <item android:id="@+id/MenuAdicionarCliente"
+        android:title="Inserir Cliente"
+        android:showAsAction="never"/>
+</menu>

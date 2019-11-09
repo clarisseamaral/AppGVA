@@ -33,16 +33,7 @@
 				android:textSize="16dip"
 				android:paddingLeft="30dip"
 			 />
-		</LinearLayout>
-
-		<ImageView
-			android:id="@+id/imgStatus"
-			android:layout_width="wrap_content"
-			android:layout_height="48dp"
-			android:padding="5dp"
-			android:src="@drawable/abc_textfield_activated_mtrl_alpha"
-			android:layout_alignParentRight="true" />
-	
+		</LinearLayout>	
 	</LinearLayout>
    
 </RelativeLayout >

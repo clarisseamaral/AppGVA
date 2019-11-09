@@ -3,7 +3,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using GVA.DataLocal;
-using GVA.Util;
+using GVA.Util; 
 using System;
 
 namespace GVA
@@ -17,7 +17,7 @@ namespace GVA
 
             SetContentView(Resource.Layout.cadastrar_cliente);
 
-            FindViewById<Button>(Resource.Id.btnSalvar).Click += Salvar_Click;
+            FindViewById<Button>(Resource.Id.btnSalvarCliente).Click += Salvar_Click;
         }
 
         private void Salvar_Click(object sender, EventArgs e)
@@ -25,6 +25,10 @@ namespace GVA
             if (VerificaNomePreenchido())
             {
                 InserirBancoLocal();
+            }
+            else
+            {
+                ///todo: alerta informando que o nome é obrigatório!
             }
         }
 

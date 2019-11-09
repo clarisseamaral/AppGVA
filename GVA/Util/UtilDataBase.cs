@@ -20,7 +20,7 @@ namespace GVA.Util
 
         public static string ConnectionString {
             get {
-                return string.Format("Data Source={0};Version=1;", CaminhoBanco);
+                return string.Format("Data Source={0};Version=3;", CaminhoBanco);
             }
         }
 
