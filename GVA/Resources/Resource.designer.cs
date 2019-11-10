@@ -2345,17 +2345,17 @@ namespace GVA
 			// aapt resource value: 0x7f080035
 			public const int META = 2131230773;
 			
-			// aapt resource value: 0x7f0800d7
-			public const int MenuAdicionarCliente = 2131230935;
-			
-			// aapt resource value: 0x7f0800d5
-			public const int MenuAdicionarVenda = 2131230933;
+			// aapt resource value: 0x7f0800d8
+			public const int MenuAdicionarCliente = 2131230936;
 			
 			// aapt resource value: 0x7f0800d6
-			public const int MenuClientes = 2131230934;
+			public const int MenuAdicionarVenda = 2131230934;
 			
-			// aapt resource value: 0x7f0800d8
-			public const int MenuVendas = 2131230936;
+			// aapt resource value: 0x7f0800d7
+			public const int MenuClientes = 2131230935;
+			
+			// aapt resource value: 0x7f0800d9
+			public const int MenuVendas = 2131230937;
 			
 			// aapt resource value: 0x7f080036
 			public const int SHIFT = 2131230774;
@@ -2363,8 +2363,8 @@ namespace GVA
 			// aapt resource value: 0x7f080037
 			public const int SYM = 2131230775;
 			
-			// aapt resource value: 0x7f0800ce
-			public const int Text = 2131230926;
+			// aapt resource value: 0x7f0800cf
+			public const int Text = 2131230927;
 			
 			// aapt resource value: 0x7f0800bd
 			public const int action0 = 2131230909;
@@ -2600,11 +2600,14 @@ namespace GVA
 			// aapt resource value: 0x7f08005f
 			public const int image = 2131230815;
 			
-			// aapt resource value: 0x7f08009c
-			public const int imageView1 = 2131230876;
+			// aapt resource value: 0x7f0800cd
+			public const int imageView1 = 2131230925;
 			
-			// aapt resource value: 0x7f0800cf
-			public const int imgVenda = 2131230927;
+			// aapt resource value: 0x7f08009c
+			public const int imageViewFoto = 2131230876;
+			
+			// aapt resource value: 0x7f0800d0
+			public const int imgVenda = 2131230928;
 			
 			// aapt resource value: 0x7f0800c7
 			public const int info = 2131230919;
@@ -2663,14 +2666,14 @@ namespace GVA
 			// aapt resource value: 0x7f080061
 			public const int list_item = 2131230817;
 			
-			// aapt resource value: 0x7f0800d4
-			public const int masked = 2131230932;
+			// aapt resource value: 0x7f0800d5
+			public const int masked = 2131230933;
 			
 			// aapt resource value: 0x7f0800c0
 			public const int media_actions = 2131230912;
 			
-			// aapt resource value: 0x7f0800cd
-			public const int message = 2131230925;
+			// aapt resource value: 0x7f0800ce
+			public const int message = 2131230926;
 			
 			// aapt resource value: 0x7f080031
 			public const int middle = 2131230769;
@@ -2936,11 +2939,11 @@ namespace GVA
 			// aapt resource value: 0x7f08009d
 			public const int txtDescricao = 2131230877;
 			
-			// aapt resource value: 0x7f0800d0
-			public const int txtDescricaoVenda = 2131230928;
-			
 			// aapt resource value: 0x7f0800d1
-			public const int txtDetalhes = 2131230929;
+			public const int txtDescricaoVenda = 2131230929;
+			
+			// aapt resource value: 0x7f0800d2
+			public const int txtDetalhes = 2131230930;
 			
 			// aapt resource value: 0x7f08008d
 			public const int txtEmail = 2131230861;
@@ -2960,8 +2963,8 @@ namespace GVA
 			// aapt resource value: 0x7f08009f
 			public const int txtValor = 2131230879;
 			
-			// aapt resource value: 0x7f0800d2
-			public const int txtValorLista = 2131230930;
+			// aapt resource value: 0x7f0800d3
+			public const int txtValorLista = 2131230931;
 			
 			// aapt resource value: 0x7f08002d
 			public const int uniform = 2131230765;
@@ -2975,8 +2978,8 @@ namespace GVA
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f0800d3
-			public const int visible = 2131230931;
+			// aapt resource value: 0x7f0800d4
+			public const int visible = 2131230932;
 			
 			// aapt resource value: 0x7f08003c
 			public const int withText = 2131230780;

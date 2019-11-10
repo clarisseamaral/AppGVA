@@ -10,5 +10,7 @@
         public string DataVenda { get; set; }
         public string DataVencimento { get; set; }
         public string DataPagamento { get; set; }
+
+        public string CaminhoImagem { get; set; }
     }
 }

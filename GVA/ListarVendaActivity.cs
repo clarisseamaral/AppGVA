@@ -37,7 +37,7 @@ namespace GVA
 
         private void CarregarLista()
         {
-            var dtVendas = UtilDataBase.GetItemsQuery("SELECT v.Id, v.IdCliente, c.Nome, v.Descricao, v.Valor, v.DataVenda, v.DataVencimento, v.DataPagamento  from venda v INNER JOIN Cliente c ON v.IdCliente = c.IdCliente");
+            var dtVendas = UtilDataBase.GetItemsQuery("SELECT v.Id, v.IdCliente, c.Nome, v.Descricao, v.Valor, v.DataVenda, v.DataVencimento, v.DataPagamento, v.CaminhoImagem  from venda v INNER JOIN Cliente c ON v.IdCliente = c.IdCliente");
 
             if (dtVendas.Rows.Count > 0)
             {

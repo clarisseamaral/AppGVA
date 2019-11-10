@@ -1,11 +1,12 @@
 ﻿using Android.Content;
+using Android.Graphics;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GVA.Dominio;
 using System;
 using System.Collections.Generic;
-using Android.Graphics;
+using Java.IO;
 
 namespace GVA.Adapter
 {
@@ -55,12 +56,13 @@ namespace GVA.Adapter
                 holder.Descricao = view.FindViewById<TextView>(Resource.Id.txtDescricaoVenda);
                 holder.Detalhes = view.FindViewById<TextView>(Resource.Id.txtDetalhes);
                 holder.Valor = view.FindViewById<TextView>(Resource.Id.txtValorLista);
+                holder.Imagem = view.FindViewById<ImageView>(Resource.Id.imgVenda);
                 view.Tag = holder;
             }
 
             holder.Descricao.Text = itens[position].Descricao;
             holder.Detalhes.Text = itens[position].Nome;
-            holder.Valor.Text = itens[position].Valor; 
+            holder.Valor.Text = itens[position].Valor;
 
             var ldataVencimento = itens[position].DataVencimento;
             var lDataPagamento = itens[position].DataPagamento;
@@ -68,6 +70,16 @@ namespace GVA.Adapter
                 String.IsNullOrEmpty(lDataPagamento) ? (DateTime?)null : DateTime.Parse(lDataPagamento),
                 DateTime.Parse(ldataVencimento));
 
+            if (!String.IsNullOrEmpty(itens[position].CaminhoImagem))
+            {
+                File imgFile = new File(itens[position].CaminhoImagem);
+
+                if (imgFile.Exists())
+                {
+                    Bitmap myBitmap = BitmapFactory.DecodeFile(imgFile.AbsolutePath);
+                    holder.Imagem.SetImageBitmap(myBitmap);
+                }
+            }
 
             switch (lStatus)
             {
@@ -83,8 +95,6 @@ namespace GVA.Adapter
                     holder.Valor.SetTextColor(Color.Orange);
                     break;
             }
-
-            //TODO: imgStatus
 
             return view;
         }
@@ -125,7 +135,9 @@ namespace GVA.Adapter
 
         public TextView Detalhes { get; set; }
 
-    public TextView Valor { get; set; }
+        public TextView Valor { get; set; }
 
-}
+        public ImageView Imagem { get; set; }
+
+    }
 }

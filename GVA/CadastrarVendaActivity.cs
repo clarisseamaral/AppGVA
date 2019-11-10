@@ -10,18 +10,34 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System;
+using System.Collections.Generic;
+using Android.App;
+using Android.Content;
+using Android.Content.PM;
+using Android.Graphics;
+using Android.OS;
+using Android.Provider;
+using Android.Widget;
+using Java.IO;
+using Environment = Android.OS.Environment;
+using Uri = Android.Net.Uri;
+using Android.Support.V4.Content;
+using Android.Arch.Lifecycle;
 
 namespace GVA
 {
     [Activity(Label = "Cadastrar Venda", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class CadastrarVendaActivity : Activity
     {
+        #region Variaveis
         EditText dataVenda;
         EditText dataPagamento;
         EditText dataVencimento;
         EditText descricao;
         EditText valor;
         Spinner spinnerCliente;
+        ImageView _imageView;
 
         public List<long> IDsCliente { get; set; }
 
@@ -29,9 +45,12 @@ namespace GVA
 
         public long ClienteSelecionado { get; set; }
 
+        #endregion
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.SetVmPolicy(builder.Build());
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.cadastrar_venda);
@@ -47,7 +66,15 @@ namespace GVA
 
                 ExibirVenda(new VendaDB(dtVenda.Rows[0]));
             }
+
+            if (IsThereAnAppToTakePictures())
+            {
+                CreateDirectoryForPictures();
+                
+                _imageView.Click += ImageViewFoto_Click;
+            }
         }
+
 
         private void ExibirVenda(VendaDB venda)
         {
@@ -61,13 +88,77 @@ namespace GVA
             dataVenda.Text = venda.DataVenda;
             dataVencimento.Text = venda.DataVencimento;
             dataPagamento.Text = venda.DataPagamento;
-            //TODO: carregar imagem
+
+            if (!String.IsNullOrEmpty(venda.CaminhoImagem))
+            {
+                App._file = new File(venda.CaminhoImagem);
+
+                if (App._file.Exists())
+                {
+                    Bitmap myBitmap = BitmapFactory.DecodeFile(App._file.AbsolutePath);
+                    _imageView.SetImageBitmap(myBitmap);
+                }
+            }
         }
+
+        #region Imagem
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+            Uri contentUri = Uri.FromFile(App._file);
+            mediaScanIntent.SetData(contentUri);
+            SendBroadcast(mediaScanIntent);
+
+            int height = Resources.DisplayMetrics.HeightPixels;
+            int width = _imageView.Height;
+            App.bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
+            if (App.bitmap != null)
+            {
+                _imageView.SetImageBitmap(App.bitmap);
+                App.bitmap = null;
+            }
+
+            GC.Collect();
+        }
+
+        private void CreateDirectoryForPictures()
+        {
+            App._dir = new File(
+                Environment.GetExternalStoragePublicDirectory(
+                    Environment.DirectoryPictures), "GVA");
+            if (!App._dir.Exists())
+            {
+                App._dir.Mkdirs();
+            }
+        }
+
+        private bool IsThereAnAppToTakePictures()
+        {
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+            IList<ResolveInfo> availableActivities =
+                PackageManager.QueryIntentActivities(intent, PackageInfoFlags.MatchDefaultOnly);
+            return availableActivities != null && availableActivities.Count > 0;
+        }
+
+        private void ImageViewFoto_Click(object sender, EventArgs eventArgs)
+        {
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+
+            App._file = new File(App._dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
+
+            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(App._file));
+
+            StartActivityForResult(intent, 0);
+        }
+
+
+        #endregion
 
 
         private void CarregarElementos()
         {
-
             FindViewById<Button>(Resource.Id.btnSalvarVenda).Click += Salvar_Click;
             FindViewById<Button>(Resource.Id.btnCancelarVenda).Click += Cancelar_Click;
 
@@ -77,14 +168,11 @@ namespace GVA
             dataPagamento = FindViewById<EditText>(Resource.Id.txtDataPagamento);
             valor = FindViewById<EditText>(Resource.Id.txtValor);
             spinnerCliente = FindViewById<Spinner>(Resource.Id.spinnerCliente);
-
             spinnerCliente.ItemSelected += SpinnerCliente_ItemSelected;
+            _imageView = FindViewById<ImageView>(Resource.Id.imageViewFoto);
         }
 
-        private void SpinnerCliente_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
-        {
-            ClienteSelecionado = IDsCliente[e.Position];
-        }
+      
 
         private void CarregarClientes()
         {
@@ -207,7 +295,8 @@ namespace GVA
                 DataVenda = dataVenda.Text,
                 DataVencimento = dataVencimento.Text,
                 DataPagamento = dataPagamento.Text,
-                Valor = string.IsNullOrEmpty(valor.Text) ? "0.00" : valor.Text
+                Valor = string.IsNullOrEmpty(valor.Text) ? "0.00" : valor.Text,
+                CaminhoImagem = App._file != null ? App._file.Path : string.Empty
             };
 
             var stringBuilder = new System.Text.StringBuilder();
@@ -267,8 +356,48 @@ namespace GVA
             Dialog dialog = alerta.Create();
             dialog.Show();
         }
+        private void SpinnerCliente_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            ClienteSelecionado = IDsCliente[e.Position];
+        }
+
         #endregion
+    }
 
+    public static class App
+    {
+        public static File _file;
+        public static File _dir;
+        public static Bitmap bitmap;
+    }
 
+    public static class BitmapHelpers
+    {
+        public static Bitmap LoadAndResizeBitmap(this string fileName, int width, int height)
+        {
+            // First we get the the dimensions of the file on disk
+            BitmapFactory.Options options = new BitmapFactory.Options { InJustDecodeBounds = true };
+            BitmapFactory.DecodeFile(fileName, options);
+
+            // Next we calculate the ratio that we need to resize the image by
+            // to fit the requested dimensions.
+            int outHeight = options.OutHeight;
+            int outWidth = options.OutWidth;
+            int inSampleSize = 1;
+
+            if (outHeight > height || outWidth > width)
+            {
+                inSampleSize = outWidth > outHeight
+                                   ? outHeight / height
+                                   : outWidth / width;
+            }
+
+            // Now we will load the image and have BitmapFactory resize it for us.
+            options.InSampleSize = inSampleSize;
+            options.InJustDecodeBounds = false;
+            Bitmap resizedBitmap = BitmapFactory.DecodeFile(fileName, options);
+
+            return resizedBitmap;
+        }
     }
 }

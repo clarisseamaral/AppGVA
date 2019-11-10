@@ -15,7 +15,7 @@ namespace GVA.DataLocal
         public string DataVencimento { get; set; }
         public string DataPagamento { get; set; }
         
-        //TODO:public string CaminhoImagem { get; set; }
+        public string CaminhoImagem { get; set; }
 
 
         public VendaDB(DataRow dr)
@@ -27,14 +27,14 @@ namespace GVA.DataLocal
 
         public static string TableColumns {
             get {
-                //TODO: descobrir tipo double banco local
                 return @"Id INTEGER primary key autoincrement, 
                          IdCliente INTEGER, 
                          Descricao ntext, 
                          Valor ntext, 
                          DataVenda ntext, 
                          DataVencimento ntext, 
-                         DataPagamento ntext";
+                         DataPagamento ntext,
+                         CaminhoImagem ntext";
             }
         }
 
@@ -46,7 +46,7 @@ namespace GVA.DataLocal
         public string InsertQuery {
             get {
                 var sb = new StringBuilder();
-                sb.AppendFormat("insert into {0} (IdCliente, Descricao, Valor, DataVenda, DataVencimento, DataPagamento)", TableName);
+                sb.AppendFormat("insert into {0} (IdCliente, Descricao, Valor, DataVenda, DataVencimento, DataPagamento, CaminhoImagem)", TableName);
 
                 sb.Append(" values(");
                 //sb.AppendFormat("'{0}',", this.Id);
@@ -55,7 +55,9 @@ namespace GVA.DataLocal
                 sb.AppendFormat("'{0}',", this.Valor);
                 sb.AppendFormat("'{0}',", this.DataVenda);
                 sb.AppendFormat("'{0}',", this.DataVencimento);
-                sb.AppendFormat("'{0}'", this.DataPagamento);
+                sb.AppendFormat("'{0}',", this.DataPagamento);
+                sb.AppendFormat("'{0}'", this.CaminhoImagem);
+
 
                 sb.Append(")");
 
@@ -72,7 +74,8 @@ namespace GVA.DataLocal
                 sb.AppendFormat("{0} = '{1}',", "Valor", Valor);
                 sb.AppendFormat("{0} = '{1}',", "DataVenda", DataVenda);
                 sb.AppendFormat("{0} = '{1}',", "DataVencimento", DataVencimento);
-                sb.AppendFormat("{0} = '{1}'", "DataPagamento", DataPagamento);
+                sb.AppendFormat("{0} = '{1}',", "DataPagamento", DataPagamento);
+                sb.AppendFormat("{0} = '{1}'", "CaminhoImagem", CaminhoImagem);
 
                 sb.AppendFormat(" where {0} = '{1}'", "Id", Id);
 
@@ -101,6 +104,7 @@ namespace GVA.DataLocal
             DataVenda = dr["DataVenda"].ToString();
             DataVencimento = dr["DataVencimento"].ToString();
             DataPagamento = dr["DataPagamento"].ToString();
+            CaminhoImagem = dr["CaminhoImagem"].ToString();
         }
     }
 }
