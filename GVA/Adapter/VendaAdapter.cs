@@ -59,7 +59,7 @@ namespace GVA.Adapter
             }
 
             holder.Descricao.Text = itens[position].Descricao;
-            holder.Detalhes.Text = itens[position].NomeCliente;
+            holder.Detalhes.Text = itens[position].Nome;
             holder.Valor.Text = itens[position].Valor.ToString("0.00"); 
 
             var ldataVencimento = itens[position].DataVencimento;
@@ -72,14 +72,14 @@ namespace GVA.Adapter
             switch (lStatus)
             {
                 case (int)Status.Vencido:
-                    holder.Detalhes.Text += " Venc: " + itens[position].DataVencimento;
+                    holder.Detalhes.Text += " - Venc: " + itens[position].DataVencimento;
                     holder.Valor.SetTextColor(Color.Red);
                     break;
                 case (int)Status.Pago:
                     holder.Valor.SetTextColor(Color.Green);
                     break;
                 case (int)Status.Pendente:
-                    holder.Detalhes.Text += " Venc: " + itens[position].DataVencimento;
+                    holder.Detalhes.Text += " - Venc: " + itens[position].DataVencimento;
                     holder.Valor.SetTextColor(Color.Orange);
                     break;
             }

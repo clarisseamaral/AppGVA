@@ -173,42 +173,6 @@ namespace GVA.Util
             return dataTableResult;
         }
 
-        public static IList<T> GetItems<T>(string nameTable, Action<DataTable, IList<T>> conversor, string filtro = null, string ordernacao = null)
-        {
-            var result = Activator.CreateInstance<List<T>>();
-            DataTable dataTableResult = new DataTable();
-
-            using (var conn = new SqliteConnection((ConnectionString)))
-            {
-                conn.Open();
-                using (var command = conn.CreateCommand())
-                {
-                    string query = string.Format("select * from {0}", nameTable);
-                    if (!string.IsNullOrWhiteSpace(filtro))
-                    {
-                        query += string.Format(" where {0} ", filtro);
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(ordernacao))
-                    {
-                        query += (" " + ordernacao);
-                    }
-
-                    command.CommandText = query;
-                    command.CommandType = CommandType.Text;
-
-                    using (SqliteDataReader rdr = command.ExecuteReader())
-                    {
-                        dataTableResult.Load(rdr);
-                    }
-                }
-            }
-
-            conversor.Invoke(dataTableResult, result);
-
-            return result;
-        }
-
         public static DataTable GetItemsQuery(string query)
         {
             DataTable dataTableResult = new DataTable();

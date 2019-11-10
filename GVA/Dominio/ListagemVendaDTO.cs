@@ -5,7 +5,7 @@
         public long Id { get; set; }
         public long IdCliente { get; set; }
 
-        public string NomeCliente { get; set; }
+        public string Nome { get; set; }
 
         public string Descricao { get; set; }
         public double Valor { get; set; }

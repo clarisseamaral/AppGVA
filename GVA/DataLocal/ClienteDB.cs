@@ -78,7 +78,7 @@ namespace GVA.DataLocal
         public string SelectQuery {
             get {
                 var sb = new StringBuilder();
-                sb.AppendFormat("SELECT * from {0} order by Nome ", TableName);
+                sb.AppendFormat("SELECT * from {0} c INNER JOIN Venda v ON v.IdCliente = c.IdCliente", TableName);
                 return sb.ToString();
             }
         }
