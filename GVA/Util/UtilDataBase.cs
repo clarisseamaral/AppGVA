@@ -133,7 +133,7 @@ namespace GVA.Util
                 conn.Open();
                 using (var command = conn.CreateCommand())
                 {
-                    command.CommandText = string.Format("delete from {0} {1}", tableName, filtro);
+                    command.CommandText = string.Format("delete from {0} where {1}", tableName, filtro);
                     command.CommandType = CommandType.Text;
                     command.ExecuteNonQuery();
                 }

@@ -19,10 +19,10 @@
 		<LinearLayout
 			android:id="@+id/layoutVertical"
 			android:orientation="vertical"
-			android:layout_width="293.5dp"
+			android:layout_width="273.5dp"
 			android:layout_height="wrap_content"
 			android:paddingRight="10dip">
-			<TextView
+			<TextView 
 				android:text="Venda"
 				android:id="@+id/txtDescricaoVenda"
 				android:layout_width="wrap_content"
@@ -42,13 +42,15 @@
 			 />
 		</LinearLayout>
 
-		<ImageView
-			android:id="@+id/imgStatus"
-			android:layout_width="wrap_content"
-			android:layout_height="48dp"
-			android:padding="5dp"
-			android:src="@drawable/abc_textfield_activated_mtrl_alpha"
-			android:layout_alignParentRight="true" />
+		<TextView
+				android:id="@+id/txtValorLista"
+				android:text="50"
+				android:layout_width="wrap_content"
+				android:layout_height="48dp"
+				android:textColor="#ffbba5e1"
+				android:textSize="18dip"
+				android:gravity="center_vertical"
+			 />
 	
 	</LinearLayout>
    

@@ -68,10 +68,10 @@ namespace GVA.DataLocal
                 var sb = new StringBuilder();
                 sb.AppendFormat("update {0} ", TableName);
                 sb.AppendFormat("set {0} = '{1}',", "IdCliente", IdCliente);
-                sb.AppendFormat("{0} = '{1},'", "Descricao", Descricao);
-                sb.AppendFormat("{0} = '{1},'", "Valor", Valor);
-                sb.AppendFormat("{0} = '{1},'", "DataVenda", DataVenda);
-                sb.AppendFormat("{0} = '{1},'", "DataVencimento", DataVencimento);
+                sb.AppendFormat("{0} = '{1}',", "Descricao", Descricao);
+                sb.AppendFormat("{0} = '{1}',", "Valor", Valor);
+                sb.AppendFormat("{0} = '{1}',", "DataVenda", DataVenda);
+                sb.AppendFormat("{0} = '{1}',", "DataVencimento", DataVencimento);
                 sb.AppendFormat("{0} = '{1}'", "DataPagamento", DataPagamento);
 
                 sb.AppendFormat(" where {0} = '{1}'", "Id", Id);

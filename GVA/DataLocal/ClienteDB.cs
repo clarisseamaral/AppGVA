@@ -28,7 +28,8 @@ namespace GVA.DataLocal
                          Email ntext, 
                          Telefone ntext, 
                          DataNascimento ntext, 
-                         Observacoes ntext";
+                         Observacoes ntext,
+                         Endereco ntext";
             }
         }
 
@@ -40,7 +41,7 @@ namespace GVA.DataLocal
         public string InsertQuery {
             get {
                 var sb = new StringBuilder();
-                sb.AppendFormat("insert into {0} (Nome, Email, Telefone, DataNascimento, Observacoes)", TableName);
+                sb.AppendFormat("insert into {0} (Nome, Email, Telefone, DataNascimento, Observacoes,Endereco)", TableName);
 
                 sb.Append(" values(");
                 //sb.AppendFormat("'{0}',", this.IdCliente);
@@ -48,7 +49,8 @@ namespace GVA.DataLocal
                 sb.AppendFormat("'{0}',", this.Email);
                 sb.AppendFormat("'{0}',", this.Telefone);
                 sb.AppendFormat("'{0}',", this.DataNascimento);
-                sb.AppendFormat("'{0}'", this.Observacoes);
+                sb.AppendFormat("'{0}',", this.Observacoes);
+                sb.AppendFormat("'{0}'", this.Endereco);
 
                 sb.Append(")");
 
@@ -61,9 +63,10 @@ namespace GVA.DataLocal
                 var sb = new StringBuilder();
                 sb.AppendFormat("update {0} ", TableName);
                 sb.AppendFormat("set {0} = '{1}',", "Nome", Nome);
-                sb.AppendFormat("{0} = '{1},'", "Email", Email);
-                sb.AppendFormat("{0} = '{1},'", "Telefone", Telefone);
-                sb.AppendFormat("{0} = '{1},'", "DataNascimento", DataNascimento);
+                sb.AppendFormat("{0} = '{1}',", "Email", Email);
+                sb.AppendFormat("{0} = '{1}',", "Telefone", Telefone);
+                sb.AppendFormat("{0} = '{1}',", "DataNascimento", DataNascimento);
+                sb.AppendFormat("{0} = '{1}',", "Endereco", Endereco);
                 sb.AppendFormat("{0} = '{1}'", "Observacoes", Observacoes);
 
                 sb.AppendFormat(" where {0} = '{1}'", "IdCliente", IdCliente);
@@ -90,6 +93,7 @@ namespace GVA.DataLocal
             Telefone = dr["Telefone"].ToString();
             DataNascimento = dr["DataNascimento"].ToString();
             Observacoes = dr["Observacoes"].ToString();
+            Endereco = dr["Endereco"].ToString();
         }
     }
 }

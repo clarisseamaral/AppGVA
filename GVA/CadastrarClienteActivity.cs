@@ -6,7 +6,6 @@ using Android.Widget;
 using GVA.DataLocal;
 using GVA.Util;
 using System;
-using System.Data;
 
 namespace GVA
 {
@@ -37,9 +36,8 @@ namespace GVA
                 var where = string.Format(" IdCliente = {0}", IdCliente);
                 var dtClientes = UtilDataBase.GetItems(ClienteDB.TableName, where, null);
 
-                ExibirCliente(dtClientes.Rows[0]);
+                ExibirCliente(new ClienteDB(dtClientes.Rows[0]));
             }
-
         }
 
         private void CarregarElementos()
@@ -56,36 +54,30 @@ namespace GVA
             Telefone = FindViewById<EditText>(Resource.Id.txtTelefone);
         }
 
-        private void ExibirCliente(DataRow dataRow)
+        private void ExibirCliente(ClienteDB cliente)
         {
-            DataNascimento.Text = dataRow["DataNascimento"].ToString();
-            Email.Text = dataRow["Email"].ToString();
-            Endereco.Text = dataRow["Endereco"].ToString();
-            Nome.Text = dataRow["Nome"].ToString();
-            Observacoes.Text = dataRow["Observacoes"].ToString();
-            Telefone.Text = dataRow["Telefone"].ToString();
+            FindViewById<LinearLayout>(Resource.Id.linearLayout4).Visibility = Android.Views.ViewStates.Visible;
+
+            FindViewById<Button>(Resource.Id.btnApagarCliente).Click += Apagar_Click;
+
+            DataNascimento.Text = cliente.DataNascimento;
+            Email.Text = cliente.Email;
+            Endereco.Text = cliente.Endereco;
+            Nome.Text = cliente.Nome;
+            Observacoes.Text = cliente.Observacoes;
+            Telefone.Text = cliente.Telefone;
         }
 
-        private void Cancelar_Click(object sender, EventArgs e)
+        
+
+        private void RedirecionarListagem()
         {
             Finish();
+            var intentLista = new Intent(this, typeof(ListarClienteActivity));
+            StartActivity(intentLista);
         }
 
-        private void Salvar_Click(object sender, EventArgs e)
-        {
-            if (VerificaNomePreenchido())
-            {
-                AtualizarBancoLocal();
-                Toast.MakeText(this, "Dados salvos com sucesso.", ToastLength.Long).Show();
-                Finish();
-                var intentLista = new Intent(this, typeof(ListarClienteActivity));
-                StartActivity(intentLista);
-            }
-            else
-            {
-                Toast.MakeText(this, "Favor preencher o nome do cliente.", ToastLength.Long).Show();
-            }
-        }
+       
 
         private bool VerificaNomePreenchido()
         {
@@ -119,5 +111,42 @@ namespace GVA
 
             UtilDataBase.Save(stringBuilder.ToString());
         }
+
+        #region Eventos
+        private void Apagar_Click(object sender, System.EventArgs e)
+        {
+            var dtVendas = UtilDataBase.GetItems(VendaDB.TableName, string.Format(" IdCliente = {0}", IdCliente));
+            if (dtVendas.Rows.Count > 0)
+            {
+                Toast.MakeText(this, "Não é possível apagar clientes que possuem vendas vinculadas!", ToastLength.Long).Show();
+            }
+            else
+            {
+                UtilDataBase.Delete(ClienteDB.TableName, string.Format(" IdCliente = {0}", IdCliente));
+                Toast.MakeText(this, "Cliente apagado com sucesso!", ToastLength.Long).Show();
+                RedirecionarListagem();
+            }
+        }
+
+        private void Cancelar_Click(object sender, EventArgs e)
+        {
+            Finish();
+        }
+
+        private void Salvar_Click(object sender, EventArgs e)
+        {
+            if (VerificaNomePreenchido())
+            {
+                AtualizarBancoLocal();
+                Toast.MakeText(this, "Dados salvos com sucesso.", ToastLength.Long).Show();
+                RedirecionarListagem();
+            }
+            else
+            {
+                Toast.MakeText(this, "Favor preencher o nome do cliente.", ToastLength.Long).Show();
+            }
+        }
+        #endregion
+
     }
 }

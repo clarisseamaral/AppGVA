@@ -5,7 +5,6 @@ using Android.Widget;
 using GVA.DataLocal;
 using GVA.Util;
 using System;
-using System.Data;
 using System.Globalization;
 
 namespace GVA
@@ -32,57 +31,43 @@ namespace GVA
             if (!String.IsNullOrEmpty(Intent.GetStringExtra("FluxoEdicaoVenda")))
             {
                 IdVenda = int.Parse(Intent.GetStringExtra("FluxoEdicaoVenda"));
-                var where = string.Format(" Id = {0}", IdVenda);
-                var dtVenda = UtilDataBase.GetItems(VendaDB.TableName, where, null);
+                var dtVenda = UtilDataBase.GetItems(VendaDB.TableName, string.Format(" Id = {0}", IdVenda), null);
 
-                ExibirVenda(dtVenda.Rows[0]);
+                ExibirVenda(new VendaDB(dtVenda.Rows[0]));
             }
         }
 
-        private void ExibirVenda(DataRow dataRow)
+        private void ExibirVenda(VendaDB venda)
         {
+            FindViewById<LinearLayout>(Resource.Id.linearApagar).Visibility = Android.Views.ViewStates.Visible;
+
+            FindViewById<Button>(Resource.Id.btnApagarVenda).Click += Apagar_Click;
+
             //TODO: carregar imagem
-            descricao.Text = dataRow["Descricao"].ToString();
+            descricao.Text = venda.Descricao;
             //TODO:selecionar cliente
             //IdCliente = int.Parse(dataRow["IdCliente"].ToString()); 
-            valor.Text = dataRow["Valor"].ToString();
-            dataVenda.Text = dataRow["DataVenda"].ToString();
-            dataVencimento.Text = dataRow["DataVencimento"].ToString();
-            dataPagamento.Text = dataRow["DataPagamento"].ToString();
+            valor.Text = venda.Valor.ToString();
+            dataVenda.Text = venda.DataVenda;
+            dataVencimento.Text = venda.DataVencimento;
+            dataPagamento.Text = venda.DataPagamento;
         }
 
 
         private void CarregarElementos()
         {
-            FindViewById<Button>(Resource.Id.btnSalvarVenda).Click += Salvar_Click;
 
-            FindViewById<Button>(Resource.Id.btnCancelarVenda).Click += Cancelar_Click;
+            FindViewById<Button>(Resource.Id.btnSalvarVenda).Click += Salvar_Click;
 
             descricao = FindViewById<EditText>(Resource.Id.txtDescricao);
             dataVenda = FindViewById<EditText>(Resource.Id.txtDataVenda);
             dataVencimento = FindViewById<EditText>(Resource.Id.txtDataVencimento);
             dataPagamento = FindViewById<EditText>(Resource.Id.txtDataPagamento);
             valor = FindViewById<EditText>(Resource.Id.txtValor);
+
         }
 
-        private void Salvar_Click(object sender, System.EventArgs e)
-        {
-            if (CamposObrigatoriosPreenchidos())
-            {
-                if (ValidaDatasPreenchidas())
-                {
-                    AtualizarBancoLocal();
 
-                    Toast.MakeText(this, "Dados salvos com sucesso.", ToastLength.Long).Show();
-
-                    Finish();
-                }
-            }
-            else
-            {
-                Toast.MakeText(this, "Favor preencher os campos obrigatórios.", ToastLength.Long).Show();
-            }
-        }
         private string GerarData(string adata)
         {
             return String.IsNullOrWhiteSpace(adata.Replace("_", "").Replace("/", "")) ? string.Empty : adata;
@@ -90,7 +75,7 @@ namespace GVA
 
         private bool ValidaDatasPreenchidas()
         {
-            string mensagem = string.Empty; 
+            string mensagem = string.Empty;
 
             DateTime ldataVenda, ldataPagamento, ldataVencimento;
             bool datasValidas = true, datasPreenchidasCorretamente = true;
@@ -100,36 +85,42 @@ namespace GVA
             DateTime.TryParseExact(GerarData(dataVencimento.Text), "dd/MM/yyyy", new CultureInfo("pt-BR"), DateTimeStyles.None, out ldataVencimento);
 
             if (ldataVenda == DateTime.MinValue || ldataVencimento == DateTime.MinValue)
+            {
                 datasPreenchidasCorretamente = false;
+            }
 
             if (!String.IsNullOrWhiteSpace(GerarData(dataPagamento.Text)) && ldataPagamento == DateTime.MinValue)
+            {
                 datasPreenchidasCorretamente = false;
-        
+            }
+
             if (datasPreenchidasCorretamente)
             {
                 if (ldataVenda > DateTime.Now)
                 {
                     datasValidas = false;
-                    mensagem += Resource.String.DataVendaMaiorPermitido;
+                    mensagem += Resources.GetString(Resource.String.DataVendaMaiorPermitido);
                 }
                 else if (ldataVenda > ldataVencimento)
                 {
                     datasValidas = false;
-                    mensagem += Resource.String.DataVencimentoInvalida;
+                    mensagem += Resources.GetString(Resource.String.DataVencimentoInvalida);
                 }
                 else if (!String.IsNullOrWhiteSpace(GerarData(dataPagamento.Text)) && ldataVenda > ldataPagamento)
                 {
                     datasValidas = false;
-                    mensagem += Resource.String.DataPagamentoInvalida;
+                    mensagem += Resources.GetString(Resource.String.DataPagamentoInvalida);
                 }
             }
             else
             {
-                mensagem += Resource.String.DataInvalida;
+                mensagem += Resources.GetString(Resource.String.DataInvalida);
             }
 
             if (!String.IsNullOrEmpty(mensagem))
+            {
                 Toast.MakeText(this, mensagem, ToastLength.Long).Show();
+            }
 
             return datasValidas && datasPreenchidasCorretamente;
         }
@@ -137,17 +128,12 @@ namespace GVA
 
         private bool CamposObrigatoriosPreenchidos()
         {
-            return     !string.IsNullOrEmpty(descricao.Text) 
+            return !string.IsNullOrEmpty(descricao.Text)
                     && !string.IsNullOrEmpty(dataVenda.Text)
                     && !string.IsNullOrEmpty(dataVencimento.Text)
-                    && !string.IsNullOrEmpty(dataPagamento.Text)
                     && !string.IsNullOrEmpty(valor.Text);
         }
 
-        private void Cancelar_Click(object sender, System.EventArgs e)
-        {
-            Finish();
-        }
 
         private void AtualizarBancoLocal()
         {
@@ -175,5 +161,40 @@ namespace GVA
 
             UtilDataBase.Save(stringBuilder.ToString());
         }
+
+        #region Eventos
+        private void Cancelar_Click(object sender, System.EventArgs e)
+        {
+            Finish();
+        }
+
+        private void Salvar_Click(object sender, System.EventArgs e)
+        {
+            if (CamposObrigatoriosPreenchidos())
+            {
+                if (ValidaDatasPreenchidas())
+                {
+                    AtualizarBancoLocal();
+
+                    Toast.MakeText(this, "Dados salvos com sucesso.", ToastLength.Long).Show();
+
+                    Finish();
+                }
+            }
+            else
+            {
+                Toast.MakeText(this, "Favor preencher os campos obrigatórios.", ToastLength.Long).Show();
+            }
+        }
+
+        private void Apagar_Click(object sender, System.EventArgs e)
+        {
+            UtilDataBase.Delete(VendaDB.TableName, string.Format(" Id = {0}", IdVenda));
+            Toast.MakeText(this, "Venda apagada com sucesso!", ToastLength.Long).Show();
+            Finish();
+        }
+        #endregion
+
+
     }
 }

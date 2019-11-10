@@ -3,7 +3,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GVA.Dominio;
+using System;
 using System.Collections.Generic;
+using Android.Graphics;
 
 namespace GVA.Adapter
 {
@@ -52,16 +54,54 @@ namespace GVA.Adapter
                 view = inflater.Inflate(Resource.Layout.venda_item, parent, false);
                 holder.Descricao = view.FindViewById<TextView>(Resource.Id.txtDescricaoVenda);
                 holder.Detalhes = view.FindViewById<TextView>(Resource.Id.txtDetalhes);
+                holder.Valor = view.FindViewById<TextView>(Resource.Id.txtValorLista);
                 view.Tag = holder;
             }
 
             holder.Descricao.Text = itens[position].Descricao;
-            holder.Detalhes.Text = itens[position].NomeCliente + "  " + itens[position].Valor;
+            holder.Detalhes.Text = itens[position].NomeCliente;
+            holder.Valor.Text = itens[position].Valor.ToString("0.00"); 
+
+            var ldataVencimento = itens[position].DataVencimento;
+            var lDataPagamento = itens[position].DataPagamento;
+            var lStatus = VerificarStatus(
+                String.IsNullOrEmpty(lDataPagamento) ? (DateTime?)null : DateTime.Parse(lDataPagamento),
+                DateTime.Parse(ldataVencimento));
+
+
+            switch (lStatus)
+            {
+                case (int)Status.Vencido:
+                    holder.Detalhes.Text += " Venc: " + itens[position].DataVencimento;
+                    holder.Valor.SetTextColor(Color.Red);
+                    break;
+                case (int)Status.Pago:
+                    holder.Valor.SetTextColor(Color.Green);
+                    break;
+                case (int)Status.Pendente:
+                    holder.Detalhes.Text += " Venc: " + itens[position].DataVencimento;
+                    holder.Valor.SetTextColor(Color.Orange);
+                    break;
+            }
 
             //TODO: imgStatus
-            
 
             return view;
+        }
+
+
+        private int VerificarStatus(DateTime? dataPagamento, DateTime dataVencimento)
+        {
+            if (dataVencimento < DateTime.Now && !dataPagamento.HasValue)
+            {
+                return (int)Status.Vencido;
+            }
+            else if (dataPagamento.HasValue)
+            {
+                return (int)Status.Pago;
+            }
+
+            return (int)Status.Pendente;
         }
 
         public override int Count {
@@ -72,11 +112,20 @@ namespace GVA.Adapter
 
     }
 
+    enum Status
+    {
+        Pendente = 1,
+        Pago = 2,
+        Vencido = 3
+    }
+
     class VendaAdapterViewHolder : Java.Lang.Object
     {
         public TextView Descricao { get; set; }
 
         public TextView Detalhes { get; set; }
 
-    }
+    public TextView Valor { get; set; }
+
+}
 }

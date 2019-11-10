@@ -111,5 +111,31 @@
 			android:background="@color/button"
 			android:textColor="#ffffffff"
 			android:textSize="15dp" />
+		
+	</LinearLayout>
+	<LinearLayout
+		android:visibility="invisible" 
+		android:orientation="horizontal"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/linearLayout4"
+		android:fadingEdge="horizontal"
+		android:foregroundGravity="center"
+		android:gravity="center"
+		android:paddingTop="50px">
+		<Space
+				android:layout_width="5dp"
+				android:layout_height="match_parent"
+				android:id="@+id/space4" />
+		<Button
+			android:text="Apagar"
+			android:layout_width="100dp"
+			android:layout_height="match_parent"
+			android:id="@+id/btnApagarCliente"
+			android:background="@color/button"
+			android:textColor="#ffffffff"
+			android:textSize="15dp" />
 	</LinearLayout>
 </LinearLayout>
