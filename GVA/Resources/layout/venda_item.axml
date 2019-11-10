@@ -7,8 +7,7 @@
 		android:id="@+id/Text"
 		android:orientation="horizontal"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:paddingRight="10dip">
+		android:layout_height="wrap_content">
 		<ImageView
 			android:id="@+id/imgVenda"
 			android:layout_width="50.5dp"
@@ -28,23 +27,22 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textSize="18dip"
-
-				android:paddingLeft="30dip"
+				android:paddingLeft="5dip"
 			 />
 			<TextView
 				android:id="@+id/txtDetalhes"
-				android:text="Cliente - valor"
+				android:text="Cliente - data"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textColor="#ffbba5e1"
 				android:textSize="16dip"
-				android:paddingLeft="30dip"
+				android:paddingLeft="5dip"
 			 />
 		</LinearLayout>
 
 		<TextView
 				android:id="@+id/txtValorLista"
-				android:text="50"
+				android:text="545"
 				android:layout_width="wrap_content"
 				android:layout_height="48dp"
 				android:textColor="#ffbba5e1"

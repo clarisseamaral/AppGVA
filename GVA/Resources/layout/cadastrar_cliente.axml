@@ -4,9 +4,7 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:paddingLeft="50dp"
-	android:paddingTop="50dp"
-	android:paddingRight="50dp">
+	android:padding="50dp">
 	<EditText
 		android:inputType="textPersonName"
 		android:layout_width="match_parent"
@@ -29,12 +27,14 @@
 		android:orientation="horizontal"
 		android:minWidth="25px"
 		android:minHeight="25px"
-		android:layout_width="match_parent"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
+		android:weightSum="4"
 		android:id="@+id/linearLayout1">
 		<EditText
 			android:inputType="phone"
-			android:layout_width="122.5dp"
+			android:layout_width="0dp" 
+			android:layout_weight="2" 
 			android:layout_height="match_parent"
 			android:textColorHint="#ffae80d0"
 			android:hint="Telefone"
@@ -44,7 +44,8 @@
 			 />
 		<EditText
 			android:inputType="date"
-			android:layout_width="159.5dp"
+			android:layout_width="0dp" 
+			android:layout_weight="2" 
 			android:layout_height="match_parent"
 			android:id="@+id/txtDataNascimento"
 			android:textColor = "@color/colorTexto"
@@ -81,6 +82,7 @@
 		android:visibility="invisible" 
 		 />
 	<LinearLayout
+		android:paddingTop="25dp"
 		android:orientation="horizontal"
 		android:minWidth="25px"
 		android:minHeight="25px"
@@ -89,8 +91,7 @@
 		android:id="@+id/linearLayout2"
 		android:fadingEdge="horizontal"
 		android:foregroundGravity="center"
-		android:gravity="center"
-		android:paddingTop="50px">
+		android:gravity="center">
 		<Button
 			android:text="Cancelar"
 			android:layout_width="100dp"

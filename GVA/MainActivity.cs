@@ -44,6 +44,10 @@ namespace GVA
 
                 listaVendas.Adapter = new VendaAdapter(this, itens);
             }
+            else
+            {
+                listaVendas.Adapter = new VendaAdapter(this, new List<ListagemVendaDTO>());
+            }
         }
 
         public override void OnCreateContextMenu(IContextMenu menu, View v, IContextMenuContextMenuInfo menuInfo)

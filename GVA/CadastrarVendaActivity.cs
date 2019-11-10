@@ -58,6 +58,7 @@ namespace GVA
         {
 
             FindViewById<Button>(Resource.Id.btnSalvarVenda).Click += Salvar_Click;
+            FindViewById<Button>(Resource.Id.btnCancelarVenda).Click += Cancelar_Click;
 
             descricao = FindViewById<EditText>(Resource.Id.txtDescricao);
             dataVenda = FindViewById<EditText>(Resource.Id.txtDataVenda);

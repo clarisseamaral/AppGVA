@@ -53,6 +53,10 @@ namespace GVA
 
                 listaClientes.Adapter = new ClienteAdapter(this, itens);
             }
+            else
+            {
+                listaClientes.Adapter = new ClienteAdapter(this, new List<ListagemClienteDTO>());
+            }
         }
     }
 }

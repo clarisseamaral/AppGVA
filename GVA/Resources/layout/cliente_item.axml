@@ -7,12 +7,11 @@
 		android:id="@+id/layoutCliente"
 		android:orientation="horizontal"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:paddingRight="10dip">
+		android:layout_height="wrap_content">
 		<LinearLayout
 			android:id="@+id/layoutVertical"
 			android:orientation="vertical"
-			android:layout_width="293.5dp"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:paddingRight="10dip">
 			<TextView

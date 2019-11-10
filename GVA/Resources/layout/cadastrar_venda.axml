@@ -4,24 +4,26 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:paddingLeft="50dp"
-	android:paddingRight="50dp">
+	android:padding="30dp">
 	<LinearLayout
 		android:orientation="horizontal"
 		android:minWidth="25px"
 		android:minHeight="25px"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:weightSum="4"
 		android:id="@+id/linearLayout3">
 		<ImageView
 			android:src="@android:drawable/ic_menu_gallery"
-			android:layout_width="140dp"
 			android:layout_height="140dp"
 			android:id="@+id/imageView1"
+			android:layout_width="0dp"
+			android:layout_weight="1" 
 			android:foregroundGravity="center_horizontal"/>
 		<EditText
 			android:inputType="textMultiLine"
-			android:layout_width="140dp"
+			android:layout_width="0dp"
+			android:layout_weight="3" 
 			android:layout_height="match_parent"
 			android:id="@+id/txtDescricao"
 			android:hint="Descrição"
@@ -45,21 +47,24 @@
 		android:minWidth="25px"
 		android:minHeight="25px"
 		android:layout_width="match_parent"
+		android:weightSum="4"
 		android:layout_height="wrap_content"
 		android:id="@+id/linearLayout1">
 		<EditText
 			android:inputType="date"
-			android:layout_width="140.5dp"
-			android:layout_height="match_parent"
+			android:layout_width="0dp"
+			android:layout_weight="2" 
 			android:textColorHint="#ffae80d0"
 			android:hint="Data Venda"
 			android:backgroundTint="#ffbba5e1"
+			android:layout_height="match_parent"
 			android:textColor = "@color/colorTexto"
 			android:id="@+id/txtDataVenda"
 			 />
 		<EditText
 			android:inputType="date"
-			android:layout_width="149.5dp"
+			android:layout_width="0dp"
+			android:layout_weight="2" 
 			android:layout_height="match_parent"
 			android:id="@+id/txtDataVencimento"
 			android:textColorHint="#ffae80d0"
