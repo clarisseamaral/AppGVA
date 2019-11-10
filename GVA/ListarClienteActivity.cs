@@ -3,6 +3,7 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Views;
 using Android.Widget;
 using GVA.Adapter;
 using GVA.DataLocal;
@@ -43,6 +44,7 @@ namespace GVA
             CarregarLista();
         }
 
+
         private void CarregarLista()
         {
             var dtClientes = UtilDataBase.GetItems(ClienteDB.TableName, null, "order by Nome");
@@ -58,5 +60,43 @@ namespace GVA
                 listaClientes.Adapter = new ClienteAdapter(this, new List<ListagemClienteDTO>());
             }
         }
+
+        #region Menu
+        public override void OnCreateContextMenu(IContextMenu menu, View v, IContextMenuContextMenuInfo menuInfo)
+        {
+            base.OnCreateContextMenu(menu, v, menuInfo);
+        }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            base.OnCreateOptionsMenu(menu);
+            MenuInflater inflater = this.MenuInflater;
+            inflater.Inflate(Resource.Menu.menu1, menu);
+            return true;
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.MenuAdicionarVenda:
+                    Finish();
+                    var intent = new Intent(this, typeof(CadastrarVendaActivity));
+                    StartActivity(intent);
+                    break;
+                case Resource.Id.MenuClientes:
+                    return true;
+                case Resource.Id.MenuAdicionarCliente:
+                    var intentCliente = new Intent(this, typeof(CadastrarClienteActivity));
+                    StartActivity(intentCliente);
+                    return true;
+                case Resource.Id.MenuVendas:
+                    Finish();
+                    return true;
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
+        #endregion
     }
 }

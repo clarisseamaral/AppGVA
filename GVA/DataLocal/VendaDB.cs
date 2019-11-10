@@ -10,7 +10,7 @@ namespace GVA.DataLocal
         public int Id { get; set; }
         public int IdCliente { get; set; }
         public string Descricao { get; set; }
-        public double Valor { get; set; }
+        public string Valor { get; set; }
         public string DataVenda { get; set; }
         public string DataVencimento { get; set; }
         public string DataPagamento { get; set; }
@@ -31,7 +31,7 @@ namespace GVA.DataLocal
                 return @"Id INTEGER primary key autoincrement, 
                          IdCliente INTEGER, 
                          Descricao ntext, 
-                         Valor INTEGER, 
+                         Valor ntext, 
                          DataVenda ntext, 
                          DataVencimento ntext, 
                          DataPagamento ntext";
@@ -96,9 +96,7 @@ namespace GVA.DataLocal
             int idCliente; int.TryParse(dr["IdCliente"].ToString(), out idCliente);
             IdCliente = idCliente;
 
-            double valor; double.TryParse(dr["Valor"].ToString(), out valor);
-            Valor = valor;
-
+            Valor = dr["Valor"].ToString();
             Descricao = dr["Descricao"].ToString();
             DataVenda = dr["DataVenda"].ToString();
             DataVencimento = dr["DataVencimento"].ToString();

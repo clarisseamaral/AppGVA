@@ -1,11 +1,15 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using GVA.DataLocal;
+using GVA.Dominio;
 using GVA.Util;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace GVA
 {
@@ -17,8 +21,14 @@ namespace GVA
         EditText dataVencimento;
         EditText descricao;
         EditText valor;
+        Spinner spinnerCliente;
+
+        public List<long> IDsCliente { get; set; }
 
         public int IdVenda { get; set; }
+
+        public long ClienteSelecionado { get; set; }
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -27,6 +37,8 @@ namespace GVA
             SetContentView(Resource.Layout.cadastrar_venda);
 
             CarregarElementos();
+
+            CarregarClientes();
 
             if (!String.IsNullOrEmpty(Intent.GetStringExtra("FluxoEdicaoVenda")))
             {
@@ -43,14 +55,13 @@ namespace GVA
 
             FindViewById<Button>(Resource.Id.btnApagarVenda).Click += Apagar_Click;
 
-            //TODO: carregar imagem
             descricao.Text = venda.Descricao;
-            //TODO:selecionar cliente
-            //IdCliente = int.Parse(dataRow["IdCliente"].ToString()); 
+            spinnerCliente.SetSelection(IDsCliente.IndexOf(venda.IdCliente));
             valor.Text = venda.Valor.ToString();
             dataVenda.Text = venda.DataVenda;
             dataVencimento.Text = venda.DataVencimento;
             dataPagamento.Text = venda.DataPagamento;
+            //TODO: carregar imagem
         }
 
 
@@ -65,9 +76,59 @@ namespace GVA
             dataVencimento = FindViewById<EditText>(Resource.Id.txtDataVencimento);
             dataPagamento = FindViewById<EditText>(Resource.Id.txtDataPagamento);
             valor = FindViewById<EditText>(Resource.Id.txtValor);
+            spinnerCliente = FindViewById<Spinner>(Resource.Id.spinnerCliente);
 
+            spinnerCliente.ItemSelected += SpinnerCliente_ItemSelected;
         }
 
+        private void SpinnerCliente_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            ClienteSelecionado = IDsCliente[e.Position];
+        }
+
+        private void CarregarClientes()
+        {
+            var dtClientes = UtilDataBase.GetItemsQuery("SELECT IdCliente, Nome from Cliente order by Nome");
+
+            if (dtClientes.Rows.Count > 0)
+            {
+                var itens = IConversoes.ConvertDataTable<ListagemClienteDTO>(dtClientes);
+
+                IDsCliente = new List<long>() { 0 };
+
+                IDsCliente.AddRange(itens.Select(o => o.IdCliente).ToList());
+
+                var nomes = new List<string>() { "Selecionar cliente" };
+
+                nomes.AddRange(itens.Select(o => o.Nome).ToList());
+
+                var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, nomes);
+
+                adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+                spinnerCliente.Adapter = adapter;
+            }
+            else
+            {
+                ExibirAlertaNenhumClienteCadastrado();
+            }
+
+          
+        }
+
+        private void ExibirAlertaNenhumClienteCadastrado()
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog alerta = builder.Create();
+            alerta.SetTitle("Nenhum cliente cadastrado! Você será redirecionado para o cadastro.");
+            alerta.SetIcon(Android.Resource.Drawable.IcDialogAlert);
+            alerta.SetButton("OK", (s, ev) =>
+            {
+                Finish();
+                var intentCliente = new Intent(this, typeof(CadastrarClienteActivity));
+                StartActivity(intentCliente);
+            });
+            alerta.Show();
+        }
 
         private string GerarData(string adata)
         {
@@ -132,7 +193,8 @@ namespace GVA
             return !string.IsNullOrEmpty(descricao.Text)
                     && !string.IsNullOrEmpty(dataVenda.Text)
                     && !string.IsNullOrEmpty(dataVencimento.Text)
-                    && !string.IsNullOrEmpty(valor.Text);
+                    && !string.IsNullOrEmpty(valor.Text)
+                    && ClienteSelecionado > 0;
         }
 
 
@@ -140,12 +202,12 @@ namespace GVA
         {
             var tbVenda = new VendaDB()
             {
-                IdCliente = 1, //todo: (FindViewById<EditText>(Resource.Id.txtDataNascimento)).Text,
+                IdCliente = (int)ClienteSelecionado,
                 Descricao = descricao.Text.Trim(),
                 DataVenda = dataVenda.Text,
                 DataVencimento = dataVencimento.Text,
                 DataPagamento = dataPagamento.Text,
-                Valor = string.IsNullOrEmpty(valor.Text) ? 0 : double.Parse(valor.Text)
+                Valor = string.IsNullOrEmpty(valor.Text) ? "0.00" : valor.Text
             };
 
             var stringBuilder = new System.Text.StringBuilder();
@@ -190,9 +252,20 @@ namespace GVA
 
         private void Apagar_Click(object sender, System.EventArgs e)
         {
-            UtilDataBase.Delete(VendaDB.TableName, string.Format(" Id = {0}", IdVenda));
-            Toast.MakeText(this, "Venda apagada com sucesso!", ToastLength.Long).Show();
-            Finish();
+            AlertDialog.Builder alerta = new AlertDialog.Builder(this);
+            alerta.SetTitle("Tem certeza que deseja apagar?");
+            alerta.SetPositiveButton("Sim", (senderAlert, args) =>
+            {
+                UtilDataBase.Delete(VendaDB.TableName, string.Format(" Id = {0}", IdVenda));
+                Toast.MakeText(this, "Venda apagada com sucesso!", ToastLength.Long).Show();
+                Finish();
+            });
+            alerta.SetNegativeButton("Não", (senderAlert, args) =>
+            {
+
+            });
+            Dialog dialog = alerta.Create();
+            dialog.Show();
         }
         #endregion
 

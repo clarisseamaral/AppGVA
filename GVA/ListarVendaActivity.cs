@@ -5,22 +5,23 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using GVA.Adapter;
-using GVA.DataLocal;
 using GVA.Dominio;
 using GVA.Util;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GVA
 {
-    [Activity(Label = "Vendas", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait, Theme = "@style/AppTheme")]
-    public class MainActivity : Activity
+    [Activity(Label ="Vendas", ScreenOrientation = ScreenOrientation.Portrait, Theme = "@style/AppTheme")]
+    public class ListarVendaActivity : Activity
     {
         ListView listaVendas;
         IList<ListagemVendaDTO> itens;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
             SetContentView(Resource.Layout.activity_main);
             listaVendas = FindViewById<ListView>(Resource.Id.listViewVendas);
             listaVendas.ItemClick += ListaVendas_ItemClick;
@@ -50,6 +51,7 @@ namespace GVA
             }
         }
 
+        #region Menu
         public override void OnCreateContextMenu(IContextMenu menu, View v, IContextMenuContextMenuInfo menuInfo)
         {
             base.OnCreateContextMenu(menu, v, menuInfo);
@@ -79,9 +81,13 @@ namespace GVA
                     var intentCliente = new Intent(this, typeof(CadastrarClienteActivity));
                     StartActivity(intentCliente);
                     return true;
+                case Resource.Id.MenuVendas:
+                    return true;
             }
             return base.OnOptionsItemSelected(item);
         }
+
+        #endregion
 
         private void ListaVendas_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {

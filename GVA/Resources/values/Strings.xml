@@ -10,4 +10,5 @@
   <string name="DadoApagadoSucesso">Dado apagado com sucesso!</string>
   <string name="ConfirmarEditar">Tem certeza que deseja editar?</string>
   <string name="DataVendaMaiorPermitido">A data da venda deve ser menor ou igual a data atual.</string>
+  <string name="Titulo">Vendas</string>
 </resources>

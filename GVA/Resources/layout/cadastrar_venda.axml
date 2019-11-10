@@ -33,6 +33,20 @@
 			android:foregroundGravity="bottom"
 			android:gravity="bottom" />
 	</LinearLayout>
+	<Spinner
+		android:layout_width="match_parent"
+		android:layout_height="40dp"
+		android:textColor = "@color/colorTexto"
+		android:textColorHint="#ffae80d0"
+		android:backgroundTint="#ffbba5e1"
+		android:id="@+id/spinnerCliente" />
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background = "#ffbba5e1"
+		android:id="@+id/linearLayout4" />
+	
 	<EditText
 		android:inputType="numberDecimal"
 		android:layout_width="match_parent"

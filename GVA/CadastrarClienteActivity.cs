@@ -38,6 +38,10 @@ namespace GVA
 
                 ExibirCliente(new ClienteDB(dtClientes.Rows[0]));
             }
+            else
+            {
+                IdCliente = 0;
+            }
         }
 
         private void CarregarElementos()
@@ -70,12 +74,16 @@ namespace GVA
 
         
 
-        private void RedirecionarListagem()
-        {
-            Finish();
-            var intentLista = new Intent(this, typeof(ListarClienteActivity));
-            StartActivity(intentLista);
-        }
+        //private void RedirecionarListagem()
+        //{
+        //    Finish();
+
+        //    if(IdCliente == 0)
+        //    {
+        //        var intentLista = new Intent(this, typeof(ListarClienteActivity));
+        //        StartActivity(intentLista);
+        //    }
+        //}
 
        
 
@@ -115,17 +123,28 @@ namespace GVA
         #region Eventos
         private void Apagar_Click(object sender, System.EventArgs e)
         {
-            var dtVendas = UtilDataBase.GetItems(VendaDB.TableName, string.Format(" IdCliente = {0}", IdCliente));
-            if (dtVendas.Rows.Count > 0)
+            AlertDialog.Builder alerta = new AlertDialog.Builder(this);
+            alerta.SetTitle("Tem certeza que deseja apagar?");
+            alerta.SetPositiveButton("Sim", (senderAlert, args) =>
             {
-                Toast.MakeText(this, "Não é possível apagar clientes que possuem vendas vinculadas!", ToastLength.Long).Show();
-            }
-            else
+                var dtVendas = UtilDataBase.GetItems(VendaDB.TableName, string.Format(" IdCliente = {0}", IdCliente));
+                if (dtVendas.Rows.Count > 0)
+                {
+                    Toast.MakeText(this, "Não é possível apagar clientes que possuem vendas vinculadas!", ToastLength.Long).Show();
+                }
+                else
+                {
+                    UtilDataBase.Delete(ClienteDB.TableName, string.Format(" IdCliente = {0}", IdCliente));
+                    Toast.MakeText(this, "Cliente apagado com sucesso!", ToastLength.Long).Show();
+                    Finish();
+                }
+            });
+            alerta.SetNegativeButton("Não", (senderAlert, args) =>
             {
-                UtilDataBase.Delete(ClienteDB.TableName, string.Format(" IdCliente = {0}", IdCliente));
-                Toast.MakeText(this, "Cliente apagado com sucesso!", ToastLength.Long).Show();
-                RedirecionarListagem();
-            }
+
+            });
+            Dialog dialog = alerta.Create();
+            dialog.Show();
         }
 
         private void Cancelar_Click(object sender, EventArgs e)
@@ -139,7 +158,7 @@ namespace GVA
             {
                 AtualizarBancoLocal();
                 Toast.MakeText(this, "Dados salvos com sucesso.", ToastLength.Long).Show();
-                RedirecionarListagem();
+                Finish();
             }
             else
             {

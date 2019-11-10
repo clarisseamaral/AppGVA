@@ -9,4 +9,7 @@
   <item android:id="@+id/MenuAdicionarCliente"
         android:title="Inserir Cliente"
         android:showAsAction="never"/>
+  <item android:id="@+id/MenuVendas"
+       android:title="Visualizar vendas"
+       android:showAsAction="never"/>
 </menu>

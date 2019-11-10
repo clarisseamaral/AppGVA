@@ -3,7 +3,7 @@
   <PropertyGroup>
     <SelectedDevice>Motorola Moto G %285%29 Plus</SelectedDevice>
     <DefaultDevice>Nexus_6_API_23</DefaultDevice>
-    <AndroidDesignerPreferredTheme>AppTheme</AndroidDesignerPreferredTheme>
+    <AndroidDesignerPreferredTheme>Theme.AppCompat.DayNight.NoActionBar</AndroidDesignerPreferredTheme>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
   </PropertyGroup>
 </Project>

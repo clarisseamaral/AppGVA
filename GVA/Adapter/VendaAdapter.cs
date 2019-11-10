@@ -60,7 +60,7 @@ namespace GVA.Adapter
 
             holder.Descricao.Text = itens[position].Descricao;
             holder.Detalhes.Text = itens[position].Nome;
-            holder.Valor.Text = itens[position].Valor.ToString("0.00"); 
+            holder.Valor.Text = itens[position].Valor; 
 
             var ldataVencimento = itens[position].DataVencimento;
             var lDataPagamento = itens[position].DataPagamento;
