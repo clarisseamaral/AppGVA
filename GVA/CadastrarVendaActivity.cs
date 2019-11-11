@@ -1,29 +1,20 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.OS;
-using Android.Widget;
-using GVA.DataLocal;
-using GVA.Dominio;
-using GVA.Util;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System;
-using System.Collections.Generic;
-using Android.App;
-using Android.Content;
-using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Provider;
 using Android.Widget;
+using GVA.DataLocal;
+using GVA.Dominio;
+using GVA.Util;
 using Java.IO;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Environment = Android.OS.Environment;
 using Uri = Android.Net.Uri;
-using Android.Support.V4.Content;
-using Android.Arch.Lifecycle;
 
 namespace GVA
 {
@@ -45,6 +36,7 @@ namespace GVA
 
         public long ClienteSelecionado { get; set; }
 
+        File _file;
         #endregion
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -70,11 +62,10 @@ namespace GVA
             if (IsThereAnAppToTakePictures())
             {
                 CreateDirectoryForPictures();
-                
+
                 _imageView.Click += ImageViewFoto_Click;
             }
         }
-
 
         private void ExibirVenda(VendaDB venda)
         {
@@ -91,13 +82,10 @@ namespace GVA
 
             if (!String.IsNullOrEmpty(venda.CaminhoImagem))
             {
-                App._file = new File(venda.CaminhoImagem);
+                Bitmap image = BitmapFactory.DecodeFile(venda.CaminhoImagem);
+                _imageView.SetImageBitmap(image);
 
-                if (App._file.Exists())
-                {
-                    Bitmap myBitmap = BitmapFactory.DecodeFile(App._file.AbsolutePath);
-                    _imageView.SetImageBitmap(myBitmap);
-                }
+                GC.Collect();
             }
         }
 
@@ -106,19 +94,11 @@ namespace GVA
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-            Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-            Uri contentUri = Uri.FromFile(App._file);
-            mediaScanIntent.SetData(contentUri);
-            SendBroadcast(mediaScanIntent);
 
-            int height = Resources.DisplayMetrics.HeightPixels;
-            int width = _imageView.Height;
-            App.bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
-            if (App.bitmap != null)
-            {
-                _imageView.SetImageBitmap(App.bitmap);
-                App.bitmap = null;
-            }
+            Bitmap image = BitmapFactory.DecodeFile(App._file.Path);
+            _imageView.SetImageBitmap(image);
+
+            _file = App._file;
 
             GC.Collect();
         }
@@ -153,9 +133,7 @@ namespace GVA
             StartActivityForResult(intent, 0);
         }
 
-
         #endregion
-
 
         private void CarregarElementos()
         {
@@ -171,8 +149,6 @@ namespace GVA
             spinnerCliente.ItemSelected += SpinnerCliente_ItemSelected;
             _imageView = FindViewById<ImageView>(Resource.Id.imageViewFoto);
         }
-
-      
 
         private void CarregarClientes()
         {
@@ -200,7 +176,7 @@ namespace GVA
                 ExibirAlertaNenhumClienteCadastrado();
             }
 
-          
+
         }
 
         private void ExibirAlertaNenhumClienteCadastrado()
@@ -275,7 +251,6 @@ namespace GVA
             return datasValidas && datasPreenchidasCorretamente;
         }
 
-
         private bool CamposObrigatoriosPreenchidos()
         {
             return !string.IsNullOrEmpty(descricao.Text)
@@ -284,7 +259,6 @@ namespace GVA
                     && !string.IsNullOrEmpty(valor.Text)
                     && ClienteSelecionado > 0;
         }
-
 
         private void AtualizarBancoLocal()
         {
@@ -296,7 +270,7 @@ namespace GVA
                 DataVencimento = dataVencimento.Text,
                 DataPagamento = dataPagamento.Text,
                 Valor = string.IsNullOrEmpty(valor.Text) ? "0.00" : valor.Text,
-                CaminhoImagem = App._file != null ? App._file.Path : string.Empty
+                CaminhoImagem = _file != null ? _file.Path : string.Empty
             };
 
             var stringBuilder = new System.Text.StringBuilder();
@@ -315,6 +289,7 @@ namespace GVA
         }
 
         #region Eventos
+
         private void Cancelar_Click(object sender, System.EventArgs e)
         {
             Finish();
@@ -371,33 +346,4 @@ namespace GVA
         public static Bitmap bitmap;
     }
 
-    public static class BitmapHelpers
-    {
-        public static Bitmap LoadAndResizeBitmap(this string fileName, int width, int height)
-        {
-            // First we get the the dimensions of the file on disk
-            BitmapFactory.Options options = new BitmapFactory.Options { InJustDecodeBounds = true };
-            BitmapFactory.DecodeFile(fileName, options);
-
-            // Next we calculate the ratio that we need to resize the image by
-            // to fit the requested dimensions.
-            int outHeight = options.OutHeight;
-            int outWidth = options.OutWidth;
-            int inSampleSize = 1;
-
-            if (outHeight > height || outWidth > width)
-            {
-                inSampleSize = outWidth > outHeight
-                                   ? outHeight / height
-                                   : outWidth / width;
-            }
-
-            // Now we will load the image and have BitmapFactory resize it for us.
-            options.InSampleSize = inSampleSize;
-            options.InJustDecodeBounds = false;
-            Bitmap resizedBitmap = BitmapFactory.DecodeFile(fileName, options);
-
-            return resizedBitmap;
-        }
-    }
 }
