@@ -82,6 +82,8 @@ namespace GVA
 
             if (!String.IsNullOrEmpty(venda.CaminhoImagem))
             {
+                _file = new File(venda.CaminhoImagem);
+
                 Bitmap image = BitmapFactory.DecodeFile(venda.CaminhoImagem);
                 _imageView.SetImageBitmap(image);
 
@@ -126,7 +128,7 @@ namespace GVA
         {
             Intent intent = new Intent(MediaStore.ActionImageCapture);
 
-            App._file = new File(App._dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
+            App._file = new File(App._dir, String.Format("gva_{0}.jpg", DateTime.Now));
 
             intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(App._file));
 

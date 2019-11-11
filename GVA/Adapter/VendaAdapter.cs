@@ -4,9 +4,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GVA.Dominio;
+using Java.IO;
 using System;
 using System.Collections.Generic;
-using Java.IO;
 
 namespace GVA.Adapter
 {
@@ -15,10 +15,10 @@ namespace GVA.Adapter
         private IList<ListagemVendaDTO> itens;
         Context context;
 
-        public VendaAdapter(Context context, IList<ListagemVendaDTO> listaClientes)
+        public VendaAdapter(Context context, IList<ListagemVendaDTO> listaVendas)
         {
             this.context = context;
-            this.itens = listaClientes;
+            this.itens = listaVendas;
         }
 
 
@@ -78,6 +78,7 @@ namespace GVA.Adapter
                 {
                     Bitmap myBitmap = BitmapFactory.DecodeFile(imgFile.AbsolutePath);
                     holder.Imagem.SetImageBitmap(myBitmap);
+                    GC.Collect();
                 }
             }
 

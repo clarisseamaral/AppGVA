@@ -8,6 +8,7 @@ using GVA.Adapter;
 using GVA.Dominio;
 using GVA.Util;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GVA
@@ -42,6 +43,8 @@ namespace GVA
             if (dtVendas.Rows.Count > 0)
             {
                 itens = IConversoes.ConvertDataTable<ListagemVendaDTO>(dtVendas);
+
+                //itens = itens.OrderBy(x => x.DataVenda).ToList();
 
                 listaVendas.Adapter = new VendaAdapter(this, itens);
             }
