@@ -1,12 +1,16 @@
-﻿using Android.App;
+﻿using Android;
+using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Support.V4.App;
+using Android.Support.V4.Content;
 using Android.Views;
 using Android.Widget;
 using GVA.Adapter;
 using GVA.Dominio;
 using GVA.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,13 +31,45 @@ namespace GVA
             listaVendas = FindViewById<ListView>(Resource.Id.listViewVendas);
             listaVendas.ItemClick += ListaVendas_ItemClick;
 
+            VerificarPermissoes();
             CarregarLista();
         }
+
+
+        private void VerificarPermissoes()
+        {
+            var permissoesNaoConcedidas = new List<String> { };
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.Camera) != (int)Permission.Granted)
+            {
+                permissoesNaoConcedidas.Add(Manifest.Permission.Camera);
+            }
+
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) != (int)Permission.Granted)
+            {
+                permissoesNaoConcedidas.Add(Manifest.Permission.ReadExternalStorage);
+            }
+
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted)
+            {
+                permissoesNaoConcedidas.Add(Manifest.Permission.Camera);
+            }
+
+            if (permissoesNaoConcedidas.Count > 0)
+            {
+                ActivityCompat.RequestPermissions(this, permissoesNaoConcedidas.ToArray() , 4);
+            }
+        }
+
 
         protected override void OnResume()
         {
             base.OnResume();
-            CarregarLista();
+
+            if (Aplicacao.RecarregarLista)
+            {
+                CarregarLista();
+                Aplicacao.RecarregarLista = false;
+            }
         }
 
         private void CarregarLista()
@@ -43,8 +79,6 @@ namespace GVA
             if (dtVendas.Rows.Count > 0)
             {
                 itens = IConversoes.ConvertDataTable<ListagemVendaDTO>(dtVendas);
-
-                //itens = itens.OrderBy(x => x.DataVenda).ToList();
 
                 listaVendas.Adapter = new VendaAdapter(this, itens);
             }

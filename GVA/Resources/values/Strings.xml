@@ -11,4 +11,5 @@
   <string name="ConfirmarEditar">Tem certeza que deseja editar?</string>
   <string name="DataVendaMaiorPermitido">A data da venda deve ser menor ou igual a data atual.</string>
   <string name="Titulo">Vendas</string>
+  <string name="SemPermissaoCamera">Gentileza permitir o acesso a câmera.</string>
 </resources>

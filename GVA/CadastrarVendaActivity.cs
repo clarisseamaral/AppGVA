@@ -1,9 +1,13 @@
-﻿using Android.App;
+﻿using Android;
+using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Provider;
+using Android.Support.Design.Widget;
+using Android.Support.V4.App;
+using Android.Support.V4.Content;
 using Android.Widget;
 using GVA.DataLocal;
 using GVA.Dominio;
@@ -97,12 +101,15 @@ namespace GVA
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            Bitmap image = BitmapFactory.DecodeFile(App._file.Path);
-            _imageView.SetImageBitmap(image);
+            if (data != null)
+            {
+                Bitmap image = BitmapFactory.DecodeFile(App._file.Path);
+                _imageView.SetImageBitmap(image);
 
-            _file = App._file;
+                _file = App._file;
 
-            GC.Collect();
+                GC.Collect();
+            }
         }
 
         private void CreateDirectoryForPictures()
@@ -126,6 +133,18 @@ namespace GVA
 
         private void ImageViewFoto_Click(object sender, EventArgs eventArgs)
         {
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.Camera) == (int)Permission.Granted)
+            {
+                AbrirCamera();
+            }
+            else
+            {
+                ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.Camera }, 4);
+            }
+        }
+
+        private void AbrirCamera()
+        {
             Intent intent = new Intent(MediaStore.ActionImageCapture);
 
             App._file = new File(App._dir, String.Format("gva_{0}.jpg", DateTime.Now));
@@ -133,6 +152,25 @@ namespace GVA
             intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(App._file));
 
             StartActivityForResult(intent, 0);
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            if (requestCode == 4)
+            {
+                if ((grantResults.Length == 1) && (grantResults[0] == Permission.Granted))
+                {
+                    AbrirCamera();
+                }
+                else
+                {
+                    Toast.MakeText(this, Resource.String.SemPermissaoCamera, ToastLength.Long).Show();
+                }
+            }
+            else
+            {
+                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
         }
 
         #endregion
@@ -306,6 +344,8 @@ namespace GVA
                     AtualizarBancoLocal();
 
                     Toast.MakeText(this, "Dados salvos com sucesso.", ToastLength.Long).Show();
+
+                    Aplicacao.RecarregarLista = true;
 
                     Finish();
                 }

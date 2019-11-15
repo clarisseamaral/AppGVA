@@ -9,6 +9,7 @@ namespace GVA
     [Application]
     public class Aplicacao : Application
     {
+        public static bool RecarregarLista { get; set; }
         public Aplicacao(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
 
@@ -27,6 +28,7 @@ namespace GVA
             if (!UtilDataBase.VerificaTabela(VendaDB.TableName))
                 UtilDataBase.CriarTabela(VendaDB.TableName, VendaDB.TableColumns);
 
+            RecarregarLista = false;
         }
 
        

@@ -7,6 +7,7 @@ using GVA.Dominio;
 using Java.IO;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace GVA.Adapter
 {
@@ -62,7 +63,7 @@ namespace GVA.Adapter
 
             holder.Descricao.Text = itens[position].Descricao;
             holder.Detalhes.Text = itens[position].Nome;
-            holder.Valor.Text = itens[position].Valor;
+            holder.Valor.Text = decimal.Parse(itens[position].Valor.Replace('.',',')).ToString("N2");
 
             var ldataVencimento = itens[position].DataVencimento;
             var lDataPagamento = itens[position].DataPagamento;
