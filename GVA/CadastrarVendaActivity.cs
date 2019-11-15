@@ -101,15 +101,17 @@ namespace GVA
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (data != null)
+            if (resultCode == Result.Ok)
             {
                 Bitmap image = BitmapFactory.DecodeFile(App._file.Path);
                 _imageView.SetImageBitmap(image);
 
                 _file = App._file;
 
-                GC.Collect();
             }
+
+            GC.Collect();
+
         }
 
         private void CreateDirectoryForPictures()
@@ -147,7 +149,7 @@ namespace GVA
         {
             Intent intent = new Intent(MediaStore.ActionImageCapture);
 
-            App._file = new File(App._dir, String.Format("gva_{0}.jpg", DateTime.Now));
+            App._file = new File(App._dir, String.Format("gva_{0}.jpg", Guid.NewGuid()));
 
             intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(App._file));
 
@@ -364,6 +366,7 @@ namespace GVA
             {
                 UtilDataBase.Delete(VendaDB.TableName, string.Format(" Id = {0}", IdVenda));
                 Toast.MakeText(this, "Venda apagada com sucesso!", ToastLength.Long).Show();
+                Aplicacao.RecarregarLista = true;
                 Finish();
             });
             alerta.SetNegativeButton("Não", (senderAlert, args) =>
